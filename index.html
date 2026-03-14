@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mahesh Mali — Developer & AI Enthusiast</title>
+  <meta name="description" content="Personal platform of Mahesh Mali — Full-Stack Developer and AI Enthusiast. Explore projects, chat with AI assistant, and get in touch." />
+  <meta name="theme-color" content="#060b14" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <!-- <link rel="apple-touch-icon" href="icons/icon-192.png" /> -->
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── PAGE LOADER ──────────────────────────────────────── -->
+<div id="page-loader">
+  <div class="loader-ring"></div>
+</div>
+
+<!-- ── TOAST CONTAINER ─────────────────────────────────── -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- ── NAVBAR ────────────────────────────────────────────── -->
+<nav id="navbar">
+  <a class="nav-logo" href="#" onclick="showPage('home'); return false;">
+    <span class="nav-logo-dot"></span>
+    <span>Mahesh<span style="color:var(--cyan)">Mali</span></span>
+  </a>
+
+  <ul class="nav-links" id="nav-links-desktop">
+    <!-- Dynamically populated -->
+  </ul>
+
+  <div class="nav-right">
+    <div id="nav-auth-area">
+      <!-- Dynamically shows Login/User based on state -->
+    </div>
+    <button class="nav-hamburger" id="hamburger-btn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile nav -->
+<nav class="nav-mobile" id="nav-mobile">
+  <!-- Dynamically populated -->
+</nav>
+
+<!-- ── PAGES CONTAINER ─────────────────────────────────── -->
+
+<!-- ══════════ HOME PAGE ══════════ -->
+<div class="page active" id="home-page">
+
+  <section id="home-hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Available for Projects
+        </div>
+        <h1 class="hero-title" id="hero-title">
+          Hi, I'm <span class="accent">Mahesh</span><br/>Mali
+        </h1>
+        <p class="hero-subtitle" id="hero-subtitle">Full-Stack Developer & AI Enthusiast</p>
+        <p class="hero-desc" id="hero-desc">
+          I craft intelligent web experiences that bridge human creativity with artificial intelligence.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="showPage('projects')">
+            🚀 View Projects
+          </button>
+          <button class="btn btn-ghost" onclick="showPage('assistant')">
+            🤖 Try Assistant
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number" id="stat-projects">2<span>+</span></div>
+            <div class="stat-label">Projects Built</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">2<span>+</span></div>
+            <div class="stat-label">Learning & Building</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">100<span>%</span></div>
+            <div class="stat-label">Dedication</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative visual (hidden on small screens) -->
+    <div class="hero-visual">
+      <div class="hero-ring hero-ring-1"></div>
+      <div class="hero-ring hero-ring-2"></div>
+      <div class="hero-ring hero-ring-3"></div>
+      <div class="hero-center-card">
+        <div class="hero-center-icon">🤖</div>
+        <div class="hero-center-label">AI POWERED</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ══════════ ABOUT PAGE ══════════ -->
+<div class="page" id="about-page">
+  <section class="section">
+    <div class="container">
+      <div class="section-label">About Me</div>
+      <h2 class="section-title" id="about-title">Who I Am</h2>
+      <hr class="divider" />
+      <div class="about-grid reveal">
+        <div class="about-text">
+          <p id="about-intro"></p>
+          <p id="about-body"></p>
+          <div class="skills-grid" id="skills-grid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+        <div class="about-sidebar">
+          <div class="info-card">
+            <div class="info-card-label">📧 Email</div>
+            <div class="info-card-value" id="about-email">—</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">📱 Phone</div>
+            <div class="info-card-value" id="about-phone">—</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">📍 Location</div>
+            <div class="info-card-value" id="about-location">—</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">💼 Status</div>
+            <div class="info-card-value" style="color:var(--green);">Available for Work</div>
+          </div>
+          <button class="btn btn-primary mt-16" onclick="showPage('contact')">
+            Get In Touch →
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════ PROJECTS PAGE ══════════ -->
+<div class="page" id="projects-page">
+  <section class="section">
+    <div class="container">
+      <div class="section-label">My Work</div>
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-desc">A selection of things I've built — from AI-powered tools to full-stack web applications.</p>
+      <div class="projects-grid" id="projects-grid">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════ ASSISTANT PAGE ══════════ -->
+<div class="page" id="assistant-page">
+  <div class="container" style="padding-top:0; padding-bottom:0;">
+    <div class="chat-layout">
+
+      <!-- Sidebar with suggestions -->
+      <aside class="chat-sidebar">
+        <div class="chat-sidebar-title">Quick Questions</div>
+        <button class="chat-suggestion" onclick="sendSuggestion('Who is Mahesh Mali?')">👤 Who is Mahesh Mali?</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('What are your skills?')">⚡ What are his skills?</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('Tell me about your projects')">🚀 Tell me about projects</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('How can I contact you?')">📧 How to contact?</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('Are you available for freelance?')">💼 Freelance availability?</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('What is your experience?')">🏆 His experience?</button>
+        <button class="chat-suggestion" onclick="sendSuggestion('Show your latest project')">📂 Show your latest project</button>
+
+        <hr class="divider" />
+        <div class="chat-sidebar-title">Info</div>
+        <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.6;">
+          This AI assistant knows about Mahesh's skills, projects, and services. Ask anything!
+        </p>
+      </aside>
+
+      <!-- Main chat -->
+      <div class="chat-main">
+        <div class="chat-header">
+          <div class="chat-avatar">🤖</div>
+          <div class="chat-header-info">
+            <h3>Mahesh's AI Assistant</h3>
+            <div class="chat-status">
+              <div class="chat-status-dot"></div>
+              Online — Ready to help
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+          <!-- Welcome message injected by JS -->
+        </div>
+
+        <!-- Lead capture (shown after N messages) -->
+        <div class="lead-capture-card hidden" id="lead-capture-card">
+          <h4>💬 Would you like Mahesh to contact you?</h4>
+          <div class="lead-form" id="lead-form">
+            <input type="text" class="form-input" id="lead-name" placeholder="Your Name" />
+            <input type="tel" class="form-input" id="lead-phone" placeholder="Phone Number" />
+            <textarea class="form-input" id="lead-message" placeholder="Your message..." rows="2"></textarea>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-primary btn-sm" onclick="submitLead()" style="flex:1;">Send Details</button>
+              <button class="btn btn-ghost btn-sm" onclick="dismissLead()">No thanks</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-footer">
+          <div class="chat-input-row">
+            <textarea
+              class="chat-input"
+              id="chat-input"
+              placeholder="Ask me anything about Mahesh..."
+              rows="1"
+              onkeydown="handleChatKey(event)"
+              oninput="autoResizeTextarea(this)"
+            ></textarea>
+            <button class="chat-send-btn" onclick="sendChatMessage()" title="Send">
+              ➤
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CONTACT PAGE ══════════ -->
+<div class="page" id="contact-page">
+  <section class="section">
+    <div class="container">
+      <div class="section-label">Let's Connect</div>
+      <h2 class="section-title">Get In Touch</h2>
+      <p class="section-desc">Have a project in mind or just want to chat? I'm always open to discussing new opportunities.</p>
+      <hr class="divider" />
+      <div class="contact-grid reveal">
+        <!-- Links -->
+        <div>
+          <h3 style="font-family:var(--font-display);margin-bottom:12px;font-size:1.1rem;">Contact Details</h3>
+          <div class="contact-links">
+            <a class="contact-link" id="contact-email-link" href="#">
+              <span class="contact-link-icon">📧</span>
+              <span id="contact-email-text">Email</span>
+            </a>
+            <a class="contact-link" id="contact-phone-link" href="#">
+              <span class="contact-link-icon">📱</span>
+              <span id="contact-phone-text">Phone</span>
+            </a>
+            <a class="contact-link" id="contact-location-link" href="#">
+              <span class="contact-link-icon">📍</span>
+              <span id="contact-location-text">Location</span>
+            </a>
+            <a class="contact-link" id="contact-github-link" href="#" target="_blank">
+              <span class="contact-link-icon">💻</span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Contact form -->
+        <div class="contact-form-card">
+          <h3 style="font-family:var(--font-display);margin-bottom:20px;font-size:1.1rem;">Send a Message</h3>
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" class="form-input" id="contact-form-name" placeholder="John Doe" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone / Email</label>
+            <input type="text" class="form-input" id="contact-form-contact" placeholder="your@email.com or +91 XXXXX" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea class="form-input" id="contact-form-message" placeholder="Tell me about your project..." rows="5"></textarea>
+          </div>
+          <button class="btn btn-primary" onclick="submitContactForm()" style="width:100%;">
+            Send Message 🚀
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer id="site-footer">
+  <div class="footer-links">
+    <a href="#" onclick="showPage('home'); return false;">Home</a>
+    <a href="#" onclick="showPage('about'); return false;">About</a>
+    <a href="#" onclick="showPage('projects'); return false;">Projects</a>
+    <a href="#" onclick="showPage('assistant'); return false;">Assistant</a>
+    <a href="#" onclick="showPage('contact'); return false;">Contact</a>
+    </div>
+  <p>© <span id="footer-year"></span> Mahesh Mali. Built with ❤️ and AI.</p>
+</footer>
+
+<!-- ══════════ AUTH MODAL ══════════ -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal('auth-modal')">✕</button>
+    <div class="modal-title" id="auth-modal-title">Welcome Back</div>
+    <div class="modal-sub" id="auth-modal-sub">Sign in to your account</div>
+
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="tab-login" onclick="switchAuthTab('login')">Login</button>
+      <button class="modal-tab" id="tab-signup" onclick="switchAuthTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-form-wrap">
+      <div class="modal-form">
+        <div class="input-group">
+          <span class="input-icon">📱</span>
+          <input type="tel" class="form-input" id="login-mobile" placeholder="Mobile Number" />
+        </div>
+        <div class="input-group">
+          <span class="input-icon">🔒</span>
+          <input type="password" class="form-input" id="login-password" placeholder="Password" />
+        </div>
+        <span class="forgot-link" onclick="showForgotForm()">Forgot Password?</span>
+        <button class="btn btn-primary" onclick="loginUser()" style="width:100%;">Login</button>
+      </div>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signup-form-wrap" style="display:none;">
+      <div class="modal-form">
+        <div class="input-group">
+          <span class="input-icon">👤</span>
+          <input type="text" class="form-input" id="signup-name" placeholder="Full Name" />
+        </div>
+        <div class="input-group">
+          <span class="input-icon">📱</span>
+          <input type="tel" class="form-input" id="signup-mobile" placeholder="Mobile Number" />
+        </div>
+        <div class="input-group">
+          <span class="input-icon">🔒</span>
+          <input type="password" class="form-input" id="signup-password" placeholder="Password (min 6 chars)" />
+        </div>
+        <button class="btn btn-primary" onclick="signupUser()" style="width:100%;">Create Account</button>
+      </div>
+    </div>
+
+    <!-- Forgot Password -->
+    <div id="forgot-form-wrap" style="display:none;">
+      <div class="modal-form">
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:8px;">Enter your registered mobile number to reset your password.</p>
+        <div class="input-group">
+          <span class="input-icon">📱</span>
+          <input type="tel" class="form-input" id="forgot-mobile" placeholder="Mobile Number" />
+        </div>
+        <div class="input-group" id="forgot-new-pass-wrap" style="display:none;">
+          <span class="input-icon">🔒</span>
+          <input type="password" class="form-input" id="forgot-new-pass" placeholder="New Password" />
+        </div>
+        <button class="btn btn-primary" onclick="handleForgotPassword()" style="width:100%;" id="forgot-btn">
+          Reset Password
+        </button>
+        <span class="forgot-link" onclick="switchAuthTab('login')">← Back to Login</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── SCRIPTS ─────────────────────────────────────────── -->
+<script src="script.js"></script>
+<script>
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('SW registered'))
+        .catch(err => console.log('SW error:', err));
+    });
+  }
+</script>
+
+</body>
+</html>

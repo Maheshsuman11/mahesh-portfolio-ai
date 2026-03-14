@@ -1,0 +1,33 @@
+{
+  "name": "Mahesh Mali Platform",
+  "short_name": "Mahesh Mali",
+  "description": "Personal platform of Mahesh Mali — Full-Stack Developer & AI Enthusiast",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#060b14",
+  "theme_color": "#060b14",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/home.png",
+      "sizes": "1280x720",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["portfolio", "productivity", "utilities"],
+  "lang": "en-IN"
+}
