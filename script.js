@@ -87,10 +87,10 @@ const DB = {
           email: 'maheshmali11884@gmail.com',
           phone: '+91 9039473519',
           location: 'India',
-          github: 'https://github.com/maheshmali',
+          github: 'https://github.com/Maheshsuman11',
         }
       },
-      admin: { mobile: '9039473519', password: 'M@hesh@2026' }
+      admin: { mobile: '6265897832', password: 'M@hesh@2026' }
     };
 
     if (!DB.get(DB.KEYS.NAVIGATION)) DB.set(DB.KEYS.NAVIGATION, seedData.navigation);
@@ -107,11 +107,13 @@ const DB = {
    APP STATE
 ══════════════════════════════════════════════════ */
 const STATE = {
-  currentPage: 'home',
+  currentPage:      'home',
   chatMessageCount: 0,
-  leadShown: false,
-  currentUser: null,
-  forgotStep: 1
+  leadShown:        false,
+  currentUser:      null,
+  forgotStep:       1,
+  forgotMobile:     null,
+  sheetsConfigured: false
 };
 
 /* ══════════════════════════════════════════════════
@@ -518,28 +520,51 @@ function submitContactForm() {
 }
 
 /* ══════════════════════════════════════════════════
-   GOOGLE SHEETS INTEGRATION (optional)
+   GOOGLE SHEETS API LAYER
+   Primary storage = Google Sheets (permanent)
+   localStorage = cache (fast local reads)
 ══════════════════════════════════════════════════ */
-async function sendToGoogleSheets(type, data) {
-  const settings = DB.get(DB.KEYS.SETTINGS) || {};
-  if (!settings.sheets_webhook_url) return;
+const SheetsAPI = {
+  getUrl() {
+    const s = DB.get(DB.KEYS.SETTINGS) || {};
+    return s.sheets_webhook_url || null;
+  },
+  async post(payload) {
+    const url = this.getUrl();
+    if (!url) return { success: false, offline: true };
+    try {
+      const res  = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(8000)
+      });
+      const text = await res.text();
+      try { return JSON.parse(text); } catch { return { success: true }; }
+    } catch (err) {
+      console.warn('Sheets request failed:', err.message);
+      return { success: false, offline: true };
+    }
+  },
+  async signup(user)                   { return await this.post({ action: 'signup',         ...user }); },
+  async login(mobile, password)        { return await this.post({ action: 'login',          mobile, password }); },
+  async checkMobile(mobile)            { return await this.post({ action: 'checkMobile',    mobile }); },
+  async updatePassword(mobile, newPwd) { return await this.post({ action: 'updatePassword', mobile, newPassword: newPwd }); },
+  async saveLead(lead)                 { return await this.post({ action: 'lead',            ...lead }); }
+};
 
-  try {
-    await fetch(settings.sheets_webhook_url, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type, ...data })
-    });
-  } catch (e) {
-    console.warn('Google Sheets sync failed (non-critical):', e.message);
-  }
+// Legacy wrapper — leads & contact form still use this
+async function sendToGoogleSheets(type, data) {
+  await SheetsAPI.saveLead({ ...data, source: data.source || type });
 }
 
 /* ══════════════════════════════════════════════════
    USER AUTHENTICATION
 ══════════════════════════════════════════════════ */
 function loadSession() {
+  const settings = DB.get(DB.KEYS.SETTINGS) || {};
+  STATE.sheetsConfigured = !!settings.sheets_webhook_url;
+
   const session = DB.get(DB.KEYS.SESSION);
   if (session && session.mobile) {
     const users = DB.get(DB.KEYS.USERS) || [];
@@ -598,48 +623,98 @@ function showForgotForm() {
   if (fb) fb.textContent = 'Find Account';
 }
 
-function handleForgotPassword() {
+async function handleForgotPassword() {
   const mobile = document.getElementById('forgot-mobile')?.value.trim();
   if (!mobile) { showToast('Enter your mobile number.', 'error'); return; }
 
-  if (STATE.forgotStep === 1) {
-    const users = DB.get(DB.KEYS.USERS) || [];
-    const user  = users.find(u => u.mobile === mobile);
-    if (!user) { showToast('No account found with this number.', 'error'); return; }
+  const btn = document.getElementById('forgot-btn');
 
-    STATE.forgotStep = 2;
+  if (STATE.forgotStep === 1) {
+    if (btn) { btn.textContent = 'Checking...'; btn.disabled = true; }
+
+    let found = false;
+    const users = DB.get(DB.KEYS.USERS) || [];
+    if (users.find(u => u.mobile === mobile)) found = true;
+
+    if (!found && STATE.sheetsConfigured) {
+      const res = await SheetsAPI.checkMobile(mobile);
+      if (res.success && res.exists) found = true;
+    }
+
+    if (btn) { btn.textContent = 'Find Account'; btn.disabled = false; }
+
+    if (!found) { showToast('No account found with this number.', 'error'); return; }
+
+    STATE.forgotStep  = 2;
+    STATE.forgotMobile = mobile;
     const np = document.getElementById('forgot-new-pass-wrap');
     if (np) np.style.display = '';
-    const fb = document.getElementById('forgot-btn');
-    if (fb) fb.textContent = 'Update Password';
+    if (btn) btn.textContent = 'Update Password';
     showToast('Account found! Set your new password.', 'info');
+
   } else {
     const newPass = document.getElementById('forgot-new-pass')?.value.trim();
     if (!newPass || newPass.length < 6) { showToast('Password must be at least 6 characters.', 'error'); return; }
 
-    const users = DB.get(DB.KEYS.USERS) || [];
-    const idx   = users.findIndex(u => u.mobile === mobile);
-    if (idx === -1) { showToast('Account not found.', 'error'); return; }
+    if (btn) { btn.textContent = 'Updating...'; btn.disabled = true; }
 
-    users[idx].password = newPass;
-    DB.set(DB.KEYS.USERS, users);
+    // Update local cache
+    const users = DB.get(DB.KEYS.USERS) || [];
+    const idx   = users.findIndex(u => u.mobile === (STATE.forgotMobile || mobile));
+    if (idx !== -1) { users[idx].password = newPass; DB.set(DB.KEYS.USERS, users); }
+
+    // Update in Sheets
+    if (STATE.sheetsConfigured) {
+      await SheetsAPI.updatePassword(STATE.forgotMobile || mobile, newPass);
+    }
+
+    if (btn) { btn.textContent = 'Update Password'; btn.disabled = false; }
     showToast('Password updated! You can now log in.', 'success');
     closeModal('auth-modal');
     switchAuthTab('login');
   }
 }
 
-function loginUser() {
+async function loginUser() {
   const mobile   = document.getElementById('login-mobile')?.value.trim();
   const password = document.getElementById('login-password')?.value;
 
   if (!mobile || !password) { showToast('Please enter mobile and password.', 'error'); return; }
 
-  const users = DB.get(DB.KEYS.USERS) || [];
-  const user  = users.find(u => u.mobile === mobile && u.password === password);
+  const btn = document.getElementById('login-submit-btn');
+  if (btn) { btn.textContent = '⏳ Logging in...'; btn.disabled = true; }
 
-  if (!user) { showToast('Invalid mobile or password.', 'error'); return; }
-  if (user.blocked) { showToast('Your account has been blocked. Contact admin.', 'error'); return; }
+  let user     = null;
+  let errorMsg = 'Invalid mobile or password.';
+
+  // Step 1: Local cache check (fast)
+  const cached = DB.get(DB.KEYS.USERS) || [];
+  const local  = cached.find(u => u.mobile === mobile && u.password === password);
+  if (local) {
+    if (local.blocked) { errorMsg = 'Your account has been blocked. Contact admin.'; }
+    else               { user = local; }
+  }
+
+  // Step 2: Google Sheets verify (agar configured hai)
+  if (!user && STATE.sheetsConfigured) {
+    try {
+      const res = await SheetsAPI.login(mobile, password);
+      if (res.success && res.user) {
+        user = res.user;
+        // Cache update
+        const idx = cached.findIndex(u => u.mobile === mobile);
+        if (idx !== -1) cached[idx] = { ...cached[idx], ...user, password };
+        else cached.push({ ...user, password });
+        DB.set(DB.KEYS.USERS, cached);
+      } else if (res.error) {
+        errorMsg = res.error;
+      }
+    } catch (e) { console.warn('Sheets login failed (offline?):', e); }
+  }
+
+  if (btn) { btn.textContent = 'Login'; btn.disabled = false; }
+
+  if (!user) { showToast(errorMsg, 'error'); return; }
 
   STATE.currentUser = user;
   DB.set(DB.KEYS.SESSION, { mobile: user.mobile });
@@ -648,7 +723,7 @@ function loginUser() {
   showToast(`Welcome back, ${user.name.split(' ')[0]}!`, 'success');
 }
 
-function signupUser() {
+async function signupUser() {
   const name     = document.getElementById('signup-name')?.value.trim();
   const mobile   = document.getElementById('signup-mobile')?.value.trim();
   const password = document.getElementById('signup-password')?.value;
@@ -657,10 +732,26 @@ function signupUser() {
   if (password.length < 6) { showToast('Password must be at least 6 characters.', 'error'); return; }
   if (!/^\d{10}$/.test(mobile)) { showToast('Enter a valid 10-digit mobile number.', 'error'); return; }
 
-  const users = DB.get(DB.KEYS.USERS) || [];
-  if (users.find(u => u.mobile === mobile)) {
+  const btn = document.getElementById('signup-submit-btn');
+  if (btn) { btn.textContent = '⏳ Creating...'; btn.disabled = true; }
+
+  const cached = DB.get(DB.KEYS.USERS) || [];
+
+  // Local duplicate check
+  if (cached.find(u => u.mobile === mobile)) {
     showToast('An account with this mobile already exists.', 'error');
+    if (btn) { btn.textContent = 'Create Account'; btn.disabled = false; }
     return;
+  }
+
+  // Sheets duplicate check
+  if (STATE.sheetsConfigured) {
+    const chk = await SheetsAPI.checkMobile(mobile);
+    if (chk.success && chk.exists) {
+      showToast('An account with this mobile already exists.', 'error');
+      if (btn) { btn.textContent = 'Create Account'; btn.disabled = false; }
+      return;
+    }
   }
 
   const user = {
@@ -670,15 +761,31 @@ function signupUser() {
     joinDate: new Date().toISOString()
   };
 
-  users.push(user);
-  DB.set(DB.KEYS.USERS, users);
+  // Save to Sheets (PRIMARY — permanent storage)
+  if (STATE.sheetsConfigured) {
+    const res = await SheetsAPI.signup(user);
+    if (!res.success && !res.offline) {
+      showToast(res.error || 'Signup failed. Please try again.', 'error');
+      if (btn) { btn.textContent = 'Create Account'; btn.disabled = false; }
+      return;
+    }
+  }
+
+  // Save to localStorage (cache)
+  cached.push(user);
+  DB.set(DB.KEYS.USERS, cached);
+
+  if (btn) { btn.textContent = 'Create Account'; btn.disabled = false; }
+
   STATE.currentUser = user;
   DB.set(DB.KEYS.SESSION, { mobile: user.mobile });
   updateNavAuth();
   closeModal('auth-modal');
   showToast(`Account created! Welcome, ${name.split(' ')[0]}!`, 'success');
-  sendToGoogleSheets('user', {  name,  mobile,  password,  joinDate:user.joinDate});
 
+  if (!STATE.sheetsConfigured) {
+    setTimeout(() => showToast('Tip: Connect Google Sheets in Admin Settings to keep data permanently!', 'info'), 2000);
+  }
 }
 
 function logoutUser() {

@@ -1,21 +1,21 @@
 {
   "meta": {
-    "version": "1.0.0",
+    "version": "2.0.0",
     "author": "Mahesh Mali Platform"
   },
   "content": {
     "hero": {
       "title": "Hi, I'm Mahesh Mali",
       "subtitle": "Full-Stack Developer & AI Enthusiast",
-      "description": "I craft intelligent web experiences that bridge human creativity with artificial intelligence.",
+      "description": "Main aise web experiences banata hoon jo human creativity aur artificial intelligence ko ek saath laate hain.",
       "cta_primary": "View Projects",
       "cta_secondary": "Try Assistant"
     },
     "about": {
       "title": "About Me",
-      "intro": "I'm Mahesh Mali, a passionate full-stack web developer and AI tools enthusiast based in India.",
-      "body": "My journey in tech started with a curiosity about how things work on the internet. Over time, that curiosity evolved into a deep passion for building intelligent, scalable web applications. I specialize in creating seamless user experiences powered by modern AI technologies.\n\nI believe technology should empower people, not overwhelm them. That's why every project I build focuses on clarity, performance, and meaningful interaction. Whether it's a sleek portfolio site or a complex AI-driven platform, I bring the same energy and attention to detail.",
-      "skills": ["HTML/CSS", "JavaScript", "React", "Node.js", "AI Integration", "UI/UX Design", "REST APIs", "MongoDB"],
+      "intro": "Main Mahesh Mali hoon — ek curious developer jo India se hai aur web aur AI ka combination explore karna pasand karta hai.",
+      "body": "Meri tech journey curiosity se shuru hui — yeh samajhne se ki internet kaise kaam karta hai. Waqt ke saath, yeh curiosity ek gehre passion mein badal gayi — intelligent, fast, aur useful web applications banana.\n\nMain believe karta hoon ki technology ko simple aur empowering hona chahiye, overwhelming nahi. Isliye main har project mein clarity, performance aur real value pe focus karta hoon — chahe woh ek clean portfolio ho ya ek AI-powered platform.\n\nFarki farki technologies explore karna, naye AI tools try karna, aur real-world problems solve karna — yahi mujhe energize karta hai.",
+      "skills": ["HTML/CSS", "JavaScript", "React", "Node.js", "AI Integration", "Prompt Engineering", "UI/UX Design", "REST APIs", "MongoDB"],
       "contact_email": "maheshmali11884@gmail.com",
       "contact_phone": "+91 9039473519",
       "location": "India"
@@ -24,73 +24,74 @@
       "email": "maheshmali11884@gmail.com",
       "phone": "+91 9039473519",
       "location": "India",
-      "github": "https://github.com/maheshsuman11",
+      "github": "https://github.com/Maheshsuman11",
       "linkedin": "",
       "twitter": ""
     }
   },
   "navigation": [
-    { "id": "nav-1", "label": "Home", "target": "home", "order": 1, "visible": true },
-    { "id": "nav-2", "label": "About", "target": "about", "order": 2, "visible": true },
-    { "id": "nav-3", "label": "Projects", "target": "projects", "order": 3, "visible": true },
+    { "id": "nav-1", "label": "Home",      "target": "home",      "order": 1, "visible": true },
+    { "id": "nav-2", "label": "About",     "target": "about",     "order": 2, "visible": true },
+    { "id": "nav-3", "label": "Projects",  "target": "projects",  "order": 3, "visible": true },
     { "id": "nav-4", "label": "Assistant", "target": "assistant", "order": 4, "visible": true },
-    { "id": "nav-5", "label": "Contact", "target": "contact", "order": 5, "visible": true }
+    { "id": "nav-5", "label": "Contact",   "target": "contact",   "order": 5, "visible": true }
   ],
   "projects": [
     {
       "id": "proj-1",
       "title": "AI Chat Platform",
-      "description": "A real-time chat application powered by natural language processing. Features include smart responses, context awareness, and multi-user support.",
+      "description": "An intelligent real-time chat platform using NLP and keyword-based AI responses. Designed for seamless user interaction with a clean dark UI.",
       "image": "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=600&q=80",
       "tags": ["AI", "JavaScript", "Node.js"],
-      "link": "https://github.com/Maheshsuman11/",
+      "link": "#",
       "featured": true,
       "date": "2024-01"
     },
     {
       "id": "proj-2",
       "title": "E-Commerce Dashboard",
-      "description": "Full-stack e-commerce management system with real-time analytics, inventory management, and automated reporting tools.",
+      "description": "A responsive e-commerce management interface with product tracking, order analytics, and automated report generation built with vanilla JS.",
       "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
-      "tags": ["JavaScript", "HTML/CSS", "prompt engineering"],
-      "link": "https://github.com/Maheshsuman11/",
+      "tags": ["JavaScript", "HTML/CSS", "Prompt Engineering"],
+      "link": "#",
       "featured": true,
       "date": "2023-09"
     },
     {
       "id": "proj-3",
       "title": "Smart Portfolio Builder",
-      "description": "A drag-and-drop portfolio builder that uses AI to suggest optimal layouts and content structure for professionals.",
+      "description": "AI-powered drag-and-drop portfolio builder that recommends layouts and structures content intelligently for developers and designers.",
       "image": "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&q=80",
-      "tags": ["Vue.js", "AI", "CSS"],
-      "link": "https://github.com/Maheshsuman11/",
+      "tags": ["AI", "CSS", "JavaScript"],
+      "link": "#",
       "featured": false,
       "date": "2023-06"
     },
     {
       "id": "proj-4",
       "title": "Lead Intelligence CRM",
-      "description": "An intelligent CRM that scores leads using behavioral analytics and predicts conversion probability with machine learning.",
+      "description": "A smart CRM tool that scores and prioritizes incoming leads using behavioral data, helping businesses focus on high-conversion prospects.",
       "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",
       "tags": ["Python", "ML", "React"],
-      "link": "https://github.com/Maheshsuman11/",
+      "link": "#",
       "featured": false,
       "date": "2023-03"
     }
   ],
   "chatbot_knowledge": [
-    { "id": "kb-1", "keywords": ["hello", "hi", "hey", "greetings", "good morning", "good evening"], "response": "Hello! 👋 I'm Mahesh's AI assistant. I can tell you about his work, skills, and projects. What would you like to know?" },
-    { "id": "kb-2", "keywords": ["who are you", "what are you", "your name", "introduce yourself"], "response": "I'm an AI assistant built for Mahesh Mali's platform. I can answer questions about Mahesh, his projects, skills, and how to get in touch with him." },
-    { "id": "kb-3", "keywords": ["mahesh", "who is mahesh", "about mahesh", "tell me about"], "response": "Mahesh Mali is a passionate full-stack developer and AI enthusiast from India. He specializes in building intelligent web applications and has expertise in JavaScript, React, Node.js, and AI integration." },
-    { "id": "kb-4", "keywords": ["skills", "technologies", "tech stack", "what can he do", "expertise"], "response": "Mahesh is skilled in: HTML/CSS, JavaScript, React, Node.js, MongoDB, REST APIs, AI/ML Integration, and UI/UX Design. He loves building products that combine great design with intelligent functionality." },
-    { "id": "kb-5", "keywords": ["projects", "work", "portfolio", "what has he built"], "response": "Mahesh has built several impressive projects including an AI Chat Platform, E-Commerce Dashboard, Smart Portfolio Builder, and Lead Intelligence CRM. Check out the Projects page for details!" },
-    { "id": "kb-6", "keywords": ["contact", "reach", "email", "phone", "hire", "work together"], "response": "You can contact Mahesh via the Contact page, or feel free to leave your details here and he'll get back to you personally! 📧 Email: maheshmali11884@gmail.com" },
-    { "id": "kb-7", "keywords": ["price", "cost", "how much", "rate", "charge", "freelance"], "response": "Mahesh works on both freelance and full-time projects. For pricing, it depends on the project scope. The best way is to reach out directly via the Contact page or submit your details here." },
-    { "id": "kb-8", "keywords": ["available", "free", "busy", "timeline", "when can"], "response": "Mahesh is currently open to new project discussions. Reach out via the Contact page for availability and timelines." },
-    { "id": "kb-9", "keywords": ["experience", "years", "how long", "background"], "response": "Mahesh has several years of experience in web development and has been building AI-powered applications since the early days of accessible AI APIs." },
-    { "id": "kb-10", "keywords": ["help", "what can you do", "assist", "support"], "response": "I can help you learn about Mahesh's skills, projects, and services. I can also help connect you with Mahesh directly if you'd like to work together! Just ask me anything." },
-    { "id": "kb-11", "keywords": ["bye", "goodbye", "see you", "thanks", "thank you"], "response": "Goodbye! 👋 If you have any more questions about Mahesh or want to get in touch, just come back and ask. Have a great day!" },
-    { "id": "kb-12", "keywords": ["location", "where", "based", "city", "country"], "response": "Mahesh is based in India and works with clients globally. He's available for remote projects worldwide!" }
+    { "id": "kb-1",  "keywords": ["hello", "hi", "hey", "greetings", "good morning", "good evening", "sup", "hlo"], "response": "Hello! 👋 Main Mahesh ka AI assistant hoon. Aap unke kaam, skills aur projects ke baare mein kuch bhi pooch sakte hain!" },
+    { "id": "kb-2",  "keywords": ["who are you", "what are you", "your name", "introduce yourself", "tum kaun ho"], "response": "Main Mahesh Mali ke platform ka AI assistant hoon. Mahesh ke projects, skills ya contact ke baare mein koi bhi sawaal poochho — main help karunga!" },
+    { "id": "kb-3",  "keywords": ["mahesh", "who is mahesh", "about mahesh", "tell me about", "mahesh mali"], "response": "Mahesh Mali ek passionate full-stack developer aur AI enthusiast hain jo India se hain. Wo intelligent web applications banate hain — JavaScript, React, Node.js aur AI integration unki core expertise hai." },
+    { "id": "kb-4",  "keywords": ["skills", "technologies", "tech stack", "what can he do", "expertise", "kya aata hai"], "response": "Mahesh ke skills: HTML/CSS, JavaScript, React, Node.js, MongoDB, REST APIs, AI/ML Integration, UI/UX Design, aur Prompt Engineering. Wo aise products banate hain jo great design aur AI intelligence ko combine karte hain." },
+    { "id": "kb-5",  "keywords": ["projects", "work", "portfolio", "what has he built", "kya banaya"], "response": "Mahesh ne kai interesting projects banaye hain — AI Chat Platform, E-Commerce Dashboard, Smart Portfolio Builder, aur Lead Intelligence CRM. Saare projects dekhne ke liye Projects page visit karo! Kuch aur projects bhi jald aane waale hain 🚀" },
+    { "id": "kb-6",  "keywords": ["contact", "reach", "email", "phone", "hire", "work together", "contact karna"], "response": "Mahesh se directly contact karo:\n📧 maheshmali11884@gmail.com\n📱 +91 9039473519\n\nYa Contact page pe form bharo — wo personally reply karte hain!" },
+    { "id": "kb-7",  "keywords": ["price", "cost", "how much", "rate", "charge", "freelance", "kitna lagega"], "response": "Mahesh freelance aur full-time dono projects pe kaam karte hain. Pricing project ke scope pe depend karti hai. Best hai seedha Contact page se reach karo ya yahan apni details chhod do." },
+    { "id": "kb-8",  "keywords": ["available", "free", "busy", "timeline", "when can", "available hai"], "response": "Mahesh abhi naye projects ke liye available hain! 🟢 Timeline aur availability ke liye Contact page se poochho." },
+    { "id": "kb-9",  "keywords": ["experience", "years", "how long", "background", "kitne saal"], "response": "Mahesh ko web development mein kaafi experience hai. AI-powered applications banana unka ek alag passion hai — latest tools aur technologies ke saath hamesha updated rehte hain." },
+    { "id": "kb-10", "keywords": ["help", "what can you do", "assist", "support", "madad"], "response": "Main Mahesh ke baare mein batane mein help kar sakta hoon — unke skills, projects, services, ya contact details. Chahte ho toh apni details yahan chhod do, Mahesh khud contact karenge! 😊" },
+    { "id": "kb-11", "keywords": ["bye", "goodbye", "see you", "thanks", "thank you", "shukriya", "dhanyawad"], "response": "Shukriya! 🙏 Kabhi bhi wapas aana. Koi project ya idea hai toh zaroor share karo — Mahesh sab ke saath kaam karne ke liye open hain!" },
+    { "id": "kb-12", "keywords": ["location", "where", "based", "city", "country", "kahan se"], "response": "Mahesh India mein based hain aur globally remote projects karte hain. 🌍 Location koi barrier nahi hai!" },
+    { "id": "kb-13", "keywords": ["github", "code", "repo", "open source"], "response": "Mahesh ka GitHub: github.com/Maheshsuman11 — Wahan unke public projects aur code explore kar sakte ho!" }
   ],
   "users": [],
   "leads": [],

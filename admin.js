@@ -752,14 +752,54 @@ function saveAdminCredentials() {
 ══════════════════════════════════════════════════ */
 function loadSettings() {
   const settings = ADB.get(ADB.KEYS.SETTINGS) || {};
-  setVal('settings-sheets-url', settings.sheets_webhook_url || '');
+  const url = settings.sheets_webhook_url || '';
+  setVal('settings-sheets-url', url);
+
+  // Status indicator update
+  setTimeout(() => {
+    const statusEl = document.getElementById('sheets-status');
+    if (statusEl) {
+      statusEl.innerHTML = url
+        ? '<span style="color:var(--green)">🟢 Connected</span>'
+        : '<span style="color:var(--amber)">🟡 Not Connected</span>';
+    }
+  }, 100);
 }
 
 function saveSettings() {
   const settings = ADB.get(ADB.KEYS.SETTINGS) || {};
-  settings.sheets_webhook_url = getVal('settings-sheets-url').trim();
+  const url = getVal('settings-sheets-url').trim();
+  settings.sheets_webhook_url = url;
   ADB.set(ADB.KEYS.SETTINGS, settings);
-  showAdminToast('Settings saved!', 'success');
+  if (url) {
+    showAdminToast('Google Sheets URL save ho gayi! Users data ab permanently save hoga.', 'success');
+    const s = document.getElementById('sheets-status');
+    if (s) s.innerHTML = '<span style="color:var(--green)">🟢 Connected</span>';
+  } else {
+    showAdminToast('Sheets URL hata di. Users sirf locally save honge.', 'info');
+    const s = document.getElementById('sheets-status');
+    if (s) s.innerHTML = '<span style="color:var(--amber)">🟡 Not Connected</span>';
+  }
+}
+
+async function testSheetsConnection() {
+  const url = getVal('settings-sheets-url').trim();
+  if (!url) { showAdminToast('Pehle URL daalo.', 'error'); return; }
+  const btn = document.getElementById('test-sheets-btn');
+  if (btn) { btn.textContent = 'Testing...'; btn.disabled = true; }
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'lead', id: 'test', name: 'Test', phone: '0000000000', message: 'Connection test', source: 'admin-test' }),
+      signal: AbortSignal.timeout(8000)
+    });
+    showAdminToast('Google Sheets connection successful!', 'success');
+  } catch(err) {
+    showAdminToast('Connection failed: ' + err.message, 'error');
+  } finally {
+    if (btn) { btn.textContent = 'Test Connection'; btn.disabled = false; }
+  }
 }
 
 function exportAllData() {
