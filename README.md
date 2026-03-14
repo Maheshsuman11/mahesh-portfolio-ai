@@ -92,8 +92,8 @@ Access the admin panel at: `admin.html`
 
 | Field     | Value         |
 |-----------|---------------|
-| Mobile    | `9039473519`  |
-| Password  | `M@hesh@2026`    |
+| Mobile    |    |
+| Password  |    |
 
 > ⚠️ **Important:** Change these credentials after your first login via Admin Panel → Content Editor → Admin Credentials section.
 
